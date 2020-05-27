@@ -1,0 +1,212 @@
+<?php
+function pc_user_view_shortcode(){
+
+  if( !is_user_logged_in() ){
+    wp_die( 'You are not logged in' );
+  }
+
+  $user_view_file      = plugin_dir_path( PC_PLUGIN_URL ) . '/views/pc_user_view.php';
+  $user_view_template  = file_get_contents( $user_view_file, true );
+  $pc_user_info        = get_user_info();
+  $user_view_template  = str_replace( 'USER_INFO',
+                                      $pc_user_info,
+                                      $user_view_template );
+
+  return $user_view_template;
+
+}
+
+function get_user_info(){
+
+  global $wpdb;
+
+  $user_id         = get_current_user_id();
+
+  $user_info       = pc_get_customer_info( $user_id, 2 );
+
+  $user_weights    = pc_get_customer_progress( $user_info[0]['pc_customer_id'] );
+
+  ob_start();
+  ?>
+  <div class="row">
+    <div class="col-12 col-lg-5">
+
+      <div class="personal__container container">
+
+        <div class="personal row">
+          <div class="col-12">
+            <?php echo $user_info[0]['user_photo']; ?>
+          </div>
+        </div>
+
+        <div class="personal row">
+          <div class="col-12">
+            <h3 class="personal__header">DATOS PERSONALES</h3>
+              <ul class="personal__info">
+                <li>Edad : <?php echo $user_info[0]['age']; ?> años</li>
+                <li>Peso inicial : <?php echo $user_info[0]['weight']; ?> Kg.</li>
+                <li>Altura : <?php echo $user_info[0]['height']; ?> cm.</li>
+                <li>País : <?php echo $user_info[0]['country']; ?></li>
+                <li>Ciudad : <?php echo $user_info[0]['city']; ?></li>
+                <li>Porcentaje de grasa estimado : <?php echo $user_info[0]['percent']; ?> %</li>
+              </ul>
+          </div>
+        </div>
+
+        <div class="personal row">
+          <div class="col-12">
+            <h3 class="personal__header">CONTACTO</h3>
+              <ul class="personal__info">
+                <li>Teléfono : <?php echo $user_info[0]['phone']; ?></li>
+                <li>Mail : <?php echo $user_info[0]['mail']; ?></li>
+              </ul>
+          </div>
+        </div>
+
+        <div class="personal row">
+          <div class="col-12">
+            <h3 class="personal__header">FECHA DE INICIO</h3>
+              <ul class="personal__info">
+                <li><?php echo $user_info[0]['start_date_formatted']; ?></li>
+              </ul>
+          </div>
+        </div>
+
+        <!--<div class="personal row">
+          <div class="col-12">
+            <h3 class="personal__header">FECHA DE RENOVACIÓN</h3>
+              <ul class="personal__info">
+                <li><span>1/02/2020</span></li>
+              </ul>
+          </div>
+        </div>-->
+
+        <div class="personal row">
+          <div class="col-12">
+            <h3 class="personal__header">SEMANA ACTUAL</h3>
+              <ul class="personal__info">
+                <li>Semana <span><?php echo $user_info[0]['current_week']; ?></span></li>
+              </ul>
+          </div>
+        </div>
+
+        <!--<div class="personal row">
+          <div class="col-12">
+            <h3 class="personal__header">PRÓXIMA VIDEOLLAMADA</h3>
+              <ul class="personal__info">
+                <li><span>15/01/2020</span></li>
+              </ul>
+          </div>
+        </div>-->
+
+      </div><!-- End personal__container -->
+
+    </div><!-- End col -->
+
+    <div class="col-12 col-lg-7">
+
+      <div class="training__container container">
+
+        <div class="important-info row">
+          <div class="col-12">
+            <h1 class="important-info__name"><?php echo $user_info[0]['name']; ?></h1>
+            <h2 >OBJETIVO: <?php echo $user_info[0]['goal']; ?></h2>
+          </div>
+        </div>
+
+
+        <div id="accordion_user_info">
+
+          <h3 class="training__header">ENTRENAMIENTO</h3>
+          <div class="training">
+            <div>
+              <ul class="training__info">
+                <li>Tipo de entrenamiento : <?php echo $user_info[0]['training']; ?></li>
+                <li>Días a la semana : <?php echo $user_info[0]['days_week']; ?> días</li>
+                <li>Lugar de entrenamiento : <?php echo $user_info[0]['area']; ?></span></li>
+                <li>Actividad física : <?php echo $user_info[0]['activity']; ?></li>
+                <li>Otros deportes : <?php echo $user_info[0]['sports']; ?></li>
+                <li>Notas : <?php echo $user_info[0]['notes']; ?></li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 class="training__header">DIETA</h3>
+          <div class="training">
+            <div>
+              <ul class="training__info">
+                <li>Tipo de dieta : <?php echo $user_info[0]['diet']; ?></li>
+                <li>Calorías a consumir : <?php echo $user_info[0]['calories']; ?> Kcal</li>
+                <li>Número de comidas : <?php echo $user_info[0]['meals']; ?></li>
+                <li>Intolerancias : <?php echo $user_info[0]['intolerances']; ?></li>
+                <li>Suplementación : <?php echo $user_info[0]['supplementation']; ?></li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 class="training__header">SEGUIMIENTO SEMANAL</h3>
+          <div class="training">
+            <form id="follow-up_form">
+
+              <input id="customer_id" type="hidden" name="customer_id" value="<?php echo $user_info[0]['pc_customer_id']; ?>">
+
+              <input id="week" type="hidden" name="week" value="<?php echo date('W'); ?>">
+
+              <label class="follow-up__input" for="current_weight">Peso actual en ayunas</label>
+              <input id="weight" type="number" name="current_weight" value=""> Kg.
+
+              <label class="follow-up__input" for="answer_1">¿Has tenido dificultades para seguir el plan? ¿Cuáles?</label><br>
+              <textarea id="answer_1" name="answer_1" rows="4" cols="50"></textarea>
+
+              <label class="follow-up__input" for="answer_2">¿Algo que te gustaría añadir o cambiar?</label><br>
+              <textarea id="answer_2" name="answer_2" rows="4" cols="50"></textarea>
+
+              <label class="follow-up__input" for="answer_3">¿Sientes especial dificultad en algún ejercicio? ¿Cuál y por qué?</label><br>
+              <textarea id="answer_3" name="answer_3" rows="4" cols="50"></textarea>
+
+              <label class="follow-up__input" for="answer_3">Otras observaciones</label><br>
+              <textarea id="answer_4" name="answer_3" rows="4" cols="50"></textarea><br>
+
+              <label class="follow-up__input" for="photo">Adjuntar foto</label>
+              <input id="photo" type="file" name="photo" value="">
+
+              <button id="pc_send_button" type="submit" name="send">Registrar</button>
+
+              </form>
+          </div>
+
+          <h3 class="training__header">PROGRESO</h3>
+          <div class="training">
+            <table>
+              <tr>
+                <?php foreach ($user_weights as $user_weight): ?>
+                  <td class="progress_weight"><?php echo $user_weight['weight']; ?></td>
+                <?php endforeach; ?>
+              </tr>
+              <tr>
+                <?php foreach ($user_weights as $week): ?>
+                  <td class="progress_week"><?php echo $week['week']; ?></td>
+                <?php endforeach; ?>
+              </tr>
+            </table>
+          </div>
+
+          <h3 id="pc_chart_accordion_container" class="training__header">APTITUDES</h3>
+          <div class="training">
+            <div id="pc_chart" style="width: 100%;"></div>
+          </div>
+
+        </div><!-- End accordion -->
+
+      </div><!-- End training__container -->
+
+    </div><!-- End col -->
+
+
+  </div><!-- End row -->
+
+<?php
+
+return ob_get_clean();
+
+}
