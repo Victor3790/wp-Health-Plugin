@@ -81,6 +81,7 @@
         'supplementation'   => $supplementation,
         'user_photo_id'     => $user_photo_id,
         'start_date'        => $start_date,
+        'active'            => true,
         'notes'             => $notes
       ],
       [
@@ -89,7 +90,7 @@
         '%d', '%s', '%f', '%f', '%d', '%d' ,
         '%d', '%d', '%d', '%d', '%s' ,
         '%d', '%d', '%d', '%s', '%s' ,
-        '%d', '%s', '%s'
+        '%d', '%s', '%d', '%s'
       ]
     );
 

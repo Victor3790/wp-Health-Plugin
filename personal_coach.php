@@ -40,8 +40,9 @@ add_action( 'wp_ajax_pc_admin_view_follow_up', 'pc_admin_view_follow_up' );
 add_action( 'wp_ajax_nopriv_pc_admin_view_follow_up', 'pc_admin_view_follow_up' );
 add_action( 'wp_ajax_pc_weekly_follow_up_registration', 'pc_weekly_follow_up_registration' );
 add_action( 'wp_ajax_nopriv_pc_weekly_follow_up_registration', 'pc_weekly_follow_up_registration' );
+add_action( 'wp_ajax_pc_inactive_customer', 'pc_inactive_customer' );
+add_action( 'wp_ajax_nopriv_pc_inactive_customer', 'pc_inactive_customer' );
 
 //Shortcodes
 add_shortcode( 'admin_view', 'pc_admin_view_shortcode' );
 add_shortcode( 'user_view', 'pc_user_view_shortcode' );
-add_shortcode( 'user_registration_form', 'pc_user_registration_shortcode' );

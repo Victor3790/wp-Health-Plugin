@@ -5,7 +5,7 @@
 ** The $request argument will be 1 if the request comes from the admin view or
 **  2 if the request comes from the user view
 */
-  function pc_get_customer_progress( $id ){
+function pc_get_customer_progress( $id ){
 
     global $wpdb;
 

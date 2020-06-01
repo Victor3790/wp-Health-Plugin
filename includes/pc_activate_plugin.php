@@ -116,6 +116,7 @@ function pc_activate_plugin(){
       `supplementation` VARCHAR(255) NOT NULL ,
       `user_photo_id` BIGINT UNSIGNED NOT NULL ,
       `start_date` DATE NOT NULL ,
+      `active` BOOLEAN NOT NULL ,
       `notes` TEXT NOT NULL ,
       PRIMARY KEY (`pc_customer_id`) ,
       FOREIGN KEY (`pc_user_id`)

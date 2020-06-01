@@ -7,6 +7,12 @@
       photo = this.files[0];
     });
 
+    //Get the mail
+    $('#pc_user_id_reg').change(function(){
+      let mail = $.trim($('#pc_user_id_reg option:selected').html());
+      $('#mail').val( mail );
+    });
+
 
     //Register the user
     $( '#user_registration_form' ).on( 'submit', function(e) {
@@ -49,7 +55,6 @@
         cache:false,
         processData:false,
         success:  function(data){
-          console.log(data);
           $('#user_registration_status').html(data);
           $('#new_user').show();
           $('#pc_send_button').attr('disabled', true);
@@ -62,7 +67,8 @@
         $( '#user_registration_form')[0].reset();
         $( '#user_registration_status' ).html('');
         $( '#new_user' ).hide();
-        $('#pc_send_button').attr('disabled', false);
+        $( '#pc_send_button' ).attr('disabled', false);
+        $( window ).scrollTop(90);
     });
   });
 })(jQuery);

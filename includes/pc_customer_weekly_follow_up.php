@@ -15,7 +15,6 @@ function pc_weekly_follow_up_registration(){
   global $wpdb;
 
   $user_id            = $_POST['customer_id'];
-  $week               = $_POST['week'];
   $weight             = $_POST['weight'];
   $answer_1           = $_POST['answer_1'];
   $answer_2           = $_POST['answer_2'];
@@ -23,6 +22,7 @@ function pc_weekly_follow_up_registration(){
   $answer_4           = $_POST['answer_4'];
   $photo              = $photo_id;
 
+  $week = pc_get_current_follow_up_week( $user_id );
 
   $output = $wpdb->insert(
     $wpdb->prefix . 'pc_follow_up_tbl',
@@ -70,9 +70,41 @@ function pc_get_weekly_follow_up( $id ){
               'ARRAY_A'
             );
 
-  /*$user_photo = pc_get_user_image( $output[0]['user_photo_id'] );
+  $user_photo = pc_get_user_image( $output[0]['photo_id'] );
 
-  $output[0]['user_photo'] = $user_photo;*/
+  $output[0]['user_photo'] = $user_photo;
 
   return $output;
+}
+
+function pc_get_current_follow_up_week( $customer_id ){
+  global $wpdb;
+
+  $query = 'SELECT
+              c.start_date
+              FROM `' . $wpdb->prefix . 'pc_customers_tbl` c
+              WHERE c.pc_customer_id = ' . $customer_id;
+
+  $output = $wpdb->get_results( $query, 'ARRAY_A' );
+
+  $start_date = $output[0]['start_date'];
+
+  $current_customer_week = pc_get_current_week( $start_date );
+
+  return $current_customer_week;
+}
+
+function pc_get_max_follow_up_week( $customer_id ){
+  global $wpdb;
+
+  $query = 'SELECT
+              MAX(`week`) AS most_recent
+              FROM `' . $wpdb->prefix . 'pc_follow_up_tbl`
+              WHERE `user_id` = ' . $customer_id;
+
+  $output = $wpdb->get_results( $query, 'ARRAY_A' );
+
+  $max_follow_up_week = $output[0]['most_recent'];
+
+  return $max_follow_up_week;
 }

@@ -1,11 +1,30 @@
 <div id="admin-tabs" style="max-width:100%; background-color:#fff;">
   <ul>
-    <li><a href="#tab-1">Información de clientes</a></li>
-    <li><a href="#tab-2">Nuevo cliente</a></li>
-    <li><a href="#tab-3">Avance semanal</a></li>
+    <li><a href="#active_customers">Clientes activos</a></li>
+    <li><a href="#customer_info">Información de clientes</a></li>
+    <li><a href="#weekly_follow_up">Avance semanal</a></li>
+    <li><a href="#add_customer">Nuevo cliente</a></li>
+    <li><a href="#inactive_customers">Clientes inactivos</a></li>
   </ul>
 
-  <div id="tab-1">
+  <div id="active_customers">
+
+    ACTIVE_CUSTOMERS
+
+  </div>
+
+  <div id="inactive_customers">
+    <table>
+      <tr>
+        <th>Nombre</th>
+        <th>Mail</th>
+        <th>Teléfono</th>
+        <th>Acciones</th>
+      </tr>
+    </table>
+  </div>
+
+  <div id="customer_info">
     <h1>Información de usuario</h1>
     <form id="pc_user_select">
       PC_USERS_INFO
@@ -152,9 +171,9 @@
       </div><!-- End Bootstrap container -->
     </div>
 
-  </div><!-- End tab-1 -->
+  </div><!-- End customer_info -->
 
-  <div id="tab-2">
+  <div id="add_customer">
     <form id="user_registration_form" enctype=”multipart/form-data” class="follow-up__form">
 
       USER_IDS
@@ -255,32 +274,14 @@
         Registrar nuevo usuario.
       </u></b>
     </p>
-  </div><!-- End tab-2 -->
+  </div><!-- End add_customer-->
 
-  <div id="tab-3">
+  <div id="weekly_follow_up">
 
     PC_USERS_PROGRESS
 
     <div id="accordion_user_progress">
-      <h3>Semana 1</h3>
-      <div>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-      </div>
-      <h3>Semana 2</h3>
-      <div>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-      </div>
-      <h3>Semana 3</h3>
-      <div>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-      </div>
-    </div>
-  </div><!-- End tab-3 -->
+    </div><!-- End accordion_user_progress -->
+  </div><!-- End weekly_follow_up -->
 
 </div><!-- End admin-tabs -->

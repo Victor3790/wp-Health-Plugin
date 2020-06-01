@@ -11,7 +11,10 @@ function pc_admin_view_shortcode(){
                                       $admin_view_template );
 
   //Customer registration view
-
+  $active_customers     = get_active_customers();
+  $admin_view_template  = str_replace( 'ACTIVE_CUSTOMERS',
+                                      $active_customers,
+                                      $admin_view_template );
   $user_ids_info        = get_user_ids();
   $admin_view_template  = str_replace( 'USER_IDS',
                                       $user_ids_info,
@@ -51,6 +54,47 @@ function pc_admin_view_shortcode(){
 
 }
 
+//Active users
+function get_active_customers(){
+  global $wpdb;
+
+  ob_start();
+
+  $active_customers = $wpdb->get_results(
+    'SELECT
+          `pc_customer_id`,
+          `name`,
+          `mail`,
+          `phone`
+     FROM `' . $wpdb->prefix . 'pc_customers_tbl`
+     WHERE `active` = true'
+  );
+  ?>
+  <table>
+    <tr>
+      <th>Nombre</th>
+      <th>Mail</th>
+      <th>Teléfono</th>
+
+    </tr>
+    <?php foreach( $active_customers as $active_customer ): ?>
+      <tr>
+        <td><?php echo $active_customer->name; ?></td>
+        <td><?php echo $active_customer->mail; ?></td>
+        <td><?php echo $active_customer->phone; ?></td>
+        <td>
+          <button class="inactive_customer" type="button" value="<?php echo $active_customer->pc_customer_id; ?>">
+            Inactivar
+          </button>
+        </td>
+      </tr>
+    <?php endforeach; ?>
+  </table>
+  <?php
+
+  return ob_get_clean();
+}
+
 //Get pc users from data base
 function get_pc_users(){
 
@@ -58,7 +102,7 @@ function get_pc_users(){
 
   ob_start();
   $pc_users = $wpdb->get_results(
-    'SELECT pc_customer_id, name FROM ' . $wpdb->prefix . 'pc_customers_tbl'
+    'SELECT `pc_customer_id`, `name` FROM `' . $wpdb->prefix . 'pc_customers_tbl`'
   );
   ?>
   <label for="pc_user_info">Selecciona un cliente</label>
@@ -83,7 +127,7 @@ function get_pc_users_progress(){
 
   ob_start();
   $pc_users = $wpdb->get_results(
-    'SELECT pc_customer_id, name FROM ' . $wpdb->prefix . 'pc_customers_tbl'
+    'SELECT `pc_customer_id`, `name` FROM `' . $wpdb->prefix . 'pc_customers_tbl`'
   );
   ?>
   <label for="pc_user_follow_up">Selecciona un cliente</label>
@@ -129,7 +173,7 @@ function get_countries(){
 
   ob_start();
   $countries = $wpdb->get_results(
-    'SELECT * FROM ' . $wpdb->prefix . 'pc_countries_tbl');
+    'SELECT * FROM `' . $wpdb->prefix . 'pc_countries_tbl`');
   ?>
 
   <label for="countries" class="follow-up__label">País</label>
@@ -154,7 +198,7 @@ function get_physical_activities(){
 
   ob_start();
   $physical_activities = $wpdb->get_results(
-    'SELECT * FROM ' . $wpdb->prefix . 'pc_physical_activities_tbl');
+    'SELECT * FROM `' . $wpdb->prefix . 'pc_physical_activities_tbl`');
   ?>
 
   <label for="physical_activities" class="follow-up__label">Actividad física</label>
@@ -180,7 +224,7 @@ function get_goals(){
 
   ob_start();
   $goals = $wpdb->get_results(
-    'SELECT * FROM ' . $wpdb->prefix . 'pc_goals_tbl');
+    'SELECT * FROM `' . $wpdb->prefix . 'pc_goals_tbl`');
   ?>
 
   <label for="goals" class="follow-up__label">Objetivo</label>
@@ -205,7 +249,7 @@ function get_trainings(){
 
   ob_start();
   $trainings = $wpdb->get_results(
-    'SELECT * FROM ' . $wpdb->prefix . 'pc_trainings_tbl');
+    'SELECT * FROM `' . $wpdb->prefix . 'pc_trainings_tbl`');
   ?>
 
   <label for="trainings" class="follow-up__label">Tipo de entrenamiento</label>
@@ -230,7 +274,7 @@ function get_training_areas(){
 
   ob_start();
   $training_areas = $wpdb->get_results(
-    'SELECT * FROM ' . $wpdb->prefix . 'pc_training_areas_tbl');
+    'SELECT * FROM `' . $wpdb->prefix . 'pc_training_areas_tbl`');
   ?>
 
   <label for="training_area" class="follow-up__label">Lugar de entrenamieto</label>
@@ -255,7 +299,7 @@ function get_diets(){
 
   ob_start();
   $diets = $wpdb->get_results(
-    'SELECT * FROM ' . $wpdb->prefix . 'pc_diets_tbl');
+    'SELECT * FROM `' . $wpdb->prefix . 'pc_diets_tbl`');
   ?>
 
   <label for="diet" class="follow-up__label">Tipo de dieta</label>

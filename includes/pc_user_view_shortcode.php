@@ -146,33 +146,40 @@ function get_user_info(){
 
           <h3 class="training__header">SEGUIMIENTO SEMANAL</h3>
           <div class="training">
-            <form id="follow-up_form">
+            <?php
+              $most_recent = pc_get_max_follow_up_week( $user_info[0]['pc_customer_id'] );
+              $current     = $user_info[0]['current_week'];
+            ?>
+            <?php if( $current == $most_recent ): ?>
+              <p>Ya has registrado tu avance para esta semana.</p>
+            <?php else: ?>
+                <form id="follow-up_form">
 
-              <input id="customer_id" type="hidden" name="customer_id" value="<?php echo $user_info[0]['pc_customer_id']; ?>">
+                  <input id="customer_id" type="hidden" name="customer_id" value="<?php echo $user_info[0]['pc_customer_id']; ?>">
 
-              <input id="week" type="hidden" name="week" value="<?php echo date('W'); ?>">
+                  <label class="follow-up__label" for="current_weight">Peso actual en ayunas</label>
+                  <input id="weight" class="follow-up__input--short" type="number" name="current_weight" value="" required>
+                  <p class="follow-up__input-units">Kg.</p>
 
-              <label class="follow-up__input" for="current_weight">Peso actual en ayunas</label>
-              <input id="weight" type="number" name="current_weight" value=""> Kg.
+                  <label class="follow-up__label" for="answer_1">¿Has tenido dificultades para seguir el plan? ¿Cuáles?</label><br>
+                  <textarea id="answer_1" name="answer_1" rows="4" cols="50" required></textarea>
 
-              <label class="follow-up__input" for="answer_1">¿Has tenido dificultades para seguir el plan? ¿Cuáles?</label><br>
-              <textarea id="answer_1" name="answer_1" rows="4" cols="50"></textarea>
+                  <label class="follow-up__label" for="answer_2">¿Algo que te gustaría añadir o cambiar?</label><br>
+                  <textarea id="answer_2" name="answer_2" rows="4" cols="50" required></textarea>
 
-              <label class="follow-up__input" for="answer_2">¿Algo que te gustaría añadir o cambiar?</label><br>
-              <textarea id="answer_2" name="answer_2" rows="4" cols="50"></textarea>
+                  <label class="follow-up__label" for="answer_3">¿Sientes especial dificultad en algún ejercicio? ¿Cuál y por qué?</label><br>
+                  <textarea id="answer_3" name="answer_3" rows="4" cols="50" required></textarea>
 
-              <label class="follow-up__input" for="answer_3">¿Sientes especial dificultad en algún ejercicio? ¿Cuál y por qué?</label><br>
-              <textarea id="answer_3" name="answer_3" rows="4" cols="50"></textarea>
+                  <label class="follow-up__label" for="answer_3">Otras observaciones</label><br>
+                  <textarea id="answer_4" name="answer_3" rows="4" cols="50" required></textarea><br>
 
-              <label class="follow-up__input" for="answer_3">Otras observaciones</label><br>
-              <textarea id="answer_4" name="answer_3" rows="4" cols="50"></textarea><br>
+                  <label class="follow-up__label" for="photo">Adjuntar foto</label>
+                  <input id="photo" type="file" name="photo" value="" required>
 
-              <label class="follow-up__input" for="photo">Adjuntar foto</label>
-              <input id="photo" type="file" name="photo" value="">
+                  <button id="pc_send_button" class="form__button" type="submit" name="send">Registrar</button>
 
-              <button id="pc_send_button" type="submit" name="send">Registrar</button>
-
-              </form>
+                </form>
+            <?php endif; ?>
           </div>
 
           <h3 class="training__header">PROGRESO</h3>

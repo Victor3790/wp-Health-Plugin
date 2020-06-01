@@ -12,6 +12,9 @@
         pc_user_id: $( '#pc_user_info' ).val()
       }
 
+      $('#weights').empty();
+      $('#weeks').empty();
+
       $.ajax({
         url:      ajax_user_object.ajax_url,
         data:     pc_user_info,
@@ -58,6 +61,7 @@
     }
 
     function on_success_user_progress(user_progress){
+
       user_progress.forEach((item) => {
         $('#weights').append('<td class="progress_weight">' + item.weight + '</td>');
         $('#weeks').append('<td class="progress_week">' + item.week + '</td>');
@@ -118,6 +122,27 @@
         var chart = new google.visualization.LineChart(document.getElementById('pc_chart'));
         chart.draw( data, options );
       }
+    }
+
+    $('.inactive_customer').click(function(){
+      console.log($(this).val());
+      var pc_customer_id = {
+        action: 'pc_inactive_customer',
+        pc_user_id: $(this).val()
+      }
+
+      $.ajax({
+        url: ajax_user_object.ajax_url,
+        data: pc_customer_id,
+        method: 'POST',
+        success: prueba_success,
+        error: function(){console.log('error')}
+      });
+
+    });
+
+    function prueba_success(result){
+      console.log(result);
     }
   } );
 })(jQuery);

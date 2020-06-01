@@ -50,16 +50,7 @@ function pc_enqueue(){
     '1.0',
     true
   );
-
-  //Set selected mail in current field
-  wp_enqueue_script(
-    'pc-set-mail',
-    plugins_url( 'assets/js/set-mail.js', PC_PLUGIN_URL ),
-    array('jquery'),
-    '1.0',
-    true
-  );
-
+  
   //Form validator (jqueryvalidation)
   wp_enqueue_script(
     'pc-form-validator',
